@@ -48,4 +48,13 @@ describe 'file based event store' do
     loaded_stream.should_not be_nil
     loaded_stream.events.should == events_wave_1 + events_wave_2
   end
+
+  it 'can give streams from a given version' do
+    stream = EventStream.new("id3")
+    (events_wave_1 + events_wave_2).map {|event| stream.append event}
+    @store.save stream
+
+    stream = @store.load_events("id3", from_version=3)
+    stream.events.should == ["event4"]
+  end
 end

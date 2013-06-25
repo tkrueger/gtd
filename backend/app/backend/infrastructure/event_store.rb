@@ -10,8 +10,8 @@ module GTD
         @backend.save(stream.entity_id, stream.unsaved_events)
       end
 
-      def load_events(id)
-        EventStream.new(id, @backend.load_events(id))
+      def load_events(id, from_version=0)
+        EventStream.new(id, @backend.load_events(id)[from_version..-1])
       end
     end
   end
