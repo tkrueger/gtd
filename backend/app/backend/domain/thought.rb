@@ -1,4 +1,4 @@
-require_relative "../../../backend/app/backend/infrastructure/aggregate"
+require_relative "../../../../backend/app/backend/infrastructure/aggregate"
 
 class Thought < Aggregate
 

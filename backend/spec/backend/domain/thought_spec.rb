@@ -1,6 +1,6 @@
 require 'rspec'
 
-require_relative "../../../../backend/app/domain/thought"
+require_relative "../../../../backend/app/backend/domain/thought"
 require_relative "../../../../backend/app/backend/infrastructure/infrastructure"
 
 describe Thought do
