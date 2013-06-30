@@ -14,6 +14,17 @@ class DummyAggregate < Aggregate
 
 end
 
+class CallTester < Aggregate
+  attr_reader :called
+  def method_missing(meth, *args, &block)
+    @called = meth.to_s
+  end
+  def apply(type, is_new=true)
+    super(type, is_new)
+    self
+  end
+end
+
 describe "An Aggregate" do
 
   it 'is instantiated using an ID' do
@@ -29,4 +40,8 @@ describe "An Aggregate" do
     agg.should have(1).unsaved_events
   end
 
+  it 'converts message type to method name' do
+    CallTester.new(1).apply({type: "Something"}).called.should == "on_something"
+    CallTester.new(1).apply({type: "SomeComplexType"}).called.should == "on_some_complex_type"
+  end
 end
