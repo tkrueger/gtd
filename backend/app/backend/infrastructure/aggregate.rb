@@ -1,16 +1,22 @@
 class Aggregate
 
-  attr_reader :unsaved_events, :id
+  attr_reader :unsaved_events, :id, :version
 
   def initialize(id)
+    @version = 0
     @id = id
     @unsaved_events = []
   end
 
+  # TODO split loading from old and handling new events
   def apply(event, is_new=true)
-    handler = handler_for(event[:type]).to_sym
+    if is_new
+      event.version = @version + 1
+    end
+    handler = handler_for(event.type).to_sym
     self.send(handler.to_sym, event)
     @unsaved_events << event if is_new
+    @version = event.version
   end
 
   def handler_for(event_type)

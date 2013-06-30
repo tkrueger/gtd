@@ -1,4 +1,5 @@
 require 'json'
+require 'ostruct'
 
 module GTD
   module Messaging
@@ -11,7 +12,7 @@ module GTD
         klass.to_s.empty? and raise JSON::JSONError, "Only named structs are supported!"
         {
             JSON.create_id => klass,
-            'data'            => table,
+            'data'         => table
         }
       end
 
