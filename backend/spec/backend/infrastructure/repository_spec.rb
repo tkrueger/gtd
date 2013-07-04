@@ -2,22 +2,24 @@ require 'rspec'
 
 require_relative "../../../../backend/app/backend/infrastructure/infrastructure"
 
+include GTD::Messaging
+
 class DummyAggregate < Aggregate
   attr_reader :greeted, :greeted_by
   def greet(whom)
-    apply({type: :greeted, whom: whom})
+    apply(Message.new({type: :greeted, whom: whom}))
   end
 
   def greeted_back(by_whom)
-    apply({type: :greeted_back, by_whom: by_whom})
+    apply(Message.new({type: :greeted_back, by_whom: by_whom}))
   end
 
   def on_greeted(event)
-    @greeted = event[:whom]
+    @greeted = event.whom
   end
 
   def on_greeted_back(event)
-    @greeted_by = event[:by_whom]
+    @greeted_by = event.by_whom
   end
 
 end
@@ -39,8 +41,8 @@ describe "An Aggregate" do
     @repository = Repository.new @event_store
 
     @event_store.events['123'] = [
-        {type: :greeted, whom: 'me'},
-        {type: :greeted_back, by_whom: 'Thorsten'}
+        Message.new({type: :greeted, whom: 'me'}),
+        Message.new({type: :greeted_back, by_whom: 'Thorsten'})
     ]
     @loaded = @repository.load('123', DummyAggregate)
   end

@@ -23,8 +23,8 @@ class CallTester < Aggregate
   def method_missing(meth, *args, &block)
     @called = meth.to_s
   end
-  def apply(type, is_new=true)
-    super(type, is_new)
+  def apply(type)
+    super(type)
     self
   end
 end

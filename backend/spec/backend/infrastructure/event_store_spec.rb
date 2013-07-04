@@ -12,8 +12,10 @@ TEST_DIR = "/tmp/test/streams"
 
 describe 'file based event store' do
 
-  events_wave_1 = ["event1", "event2"]
-  events_wave_2 = [Message.new(some: "payload"), "event4"]
+  TestMessage  = Class.new(GTD::Messaging::Message)
+
+  events_wave_1 = [TestMessage.new(payload: "event1"), TestMessage.new(payload: "event2")]
+  events_wave_2 = [TestMessage.new(type: "something", some: "payload"), TestMessage.new(type: "event4")]
 
   before :all do
     FileUtils.remove_dir TEST_DIR if File.exists? TEST_DIR
@@ -55,6 +57,6 @@ describe 'file based event store' do
     @store.save stream
 
     stream = @store.load_events("id3", from_version=3)
-    stream.events.should == ["event4"]
+    stream.events.should == [events_wave_2[1]]
   end
 end

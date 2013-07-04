@@ -19,6 +19,7 @@ module GTD
       def self.json_create(object)
         new(object['data'] || object[:data])
       end
+
     end
   end
 end
