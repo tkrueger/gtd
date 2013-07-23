@@ -14,7 +14,7 @@ module GTD
       end
 
       def save(id, events)
-        File.open(stream_file(id), 'a') do |f|
+        File.open(stream_file(), 'a') do |f|
           events.each {|event|
             f.write(
                 {
@@ -29,14 +29,14 @@ module GTD
 
       def load_events(id)
         events = []
-        File.open(stream_file(id), 'r').each_line do |line|
+        File.open(stream_file(), 'r').each_line do |line|
           parts = JSON.parse(line)
           events << parts['event'] if parts['source_id'] == id
         end
         events
       end
 
-      def stream_file(id)
+      def stream_file()
         @path + "/" + @@stream_file
       end
     end

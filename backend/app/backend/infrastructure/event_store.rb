@@ -6,8 +6,8 @@ module GTD
         @backend = backend
       end
 
-      def save(stream)
-        @backend.save(stream.entity_id, stream.unsaved_events)
+      def save(id, stream)
+        @backend.save(id, stream.unsaved_events)
       end
 
       def load_events(id, from_version=0)

@@ -13,7 +13,6 @@ class Aggregate
     self
   end
 
-  # TODO split loading from old and handling new events
   def apply(event)
     event.version = @version + 1
     handle event
