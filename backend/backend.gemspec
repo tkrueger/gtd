@@ -24,6 +24,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "guard-rspec"
   spec.add_development_dependency "libnotify"
 
+  # TODO this is obviously more frontent. refactor later.
   spec.add_dependency "sinatra"
   spec.add_dependency "thin"
+  spec.add_dependency "haml"
 end
